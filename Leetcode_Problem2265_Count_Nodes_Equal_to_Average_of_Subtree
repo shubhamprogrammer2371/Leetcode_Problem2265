@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void dfs_postorder(struct TreeNode* node, int* result, int* n, int* sum)
+{
+    int left_n = 0 , left_sum = 0 , right_n = 0 , right_sum = 0;
+    if (node->left) 
+        dfs_postorder(node->left, result, &left_n, &left_sum);
+    if (node->right) 
+        dfs_postorder(node->right, result, &right_n, &right_sum);
+    *n = left_n + right_n + 1;
+    *sum = left_sum + right_sum + node->val;
+    *result += ((*sum / *n) == node->val) ? 1 : 0;
+    return;
+}
+int averageOfSubtree(struct TreeNode* root)
+{
+    int result = 0 , n = 0 , sum = 0;
+    dfs_postorder(root, &result, &n, &sum);
+    return result;
+}
